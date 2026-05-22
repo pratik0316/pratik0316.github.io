@@ -3,522 +3,744 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pratik Dey — Software Engineer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="Pratik Dey - Software Engineer working on distributed systems, cloud storage, backend infrastructure, and production reliability." />
+  <title>Pratik Dey - Software Engineer</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #f8f9fa;
+      --bg: #f8fafc;
       --surface: #ffffff;
-      --border: #e0e0e0;
+      --surface-soft: #f1f5f9;
       --text: #202124;
-      --text-secondary: #5f6368;
-      --accent: #1a73e8;
-      --accent-light: #e8f0fe;
-      --accent-hover: #1557b0;
-      --tag-bg: #e8f0fe;
-      --tag-text: #1a73e8;
-      --shadow: 0 1px 3px rgba(60,64,67,.08), 0 1px 2px rgba(60,64,67,.06);
-      --shadow-md: 0 2px 6px rgba(60,64,67,.1), 0 1px 3px rgba(60,64,67,.08);
-      --radius: 12px;
-      --nav-height: 60px;
+      --muted: #5f6368;
+      --border: #e5e7eb;
+      --blue: #1a73e8;
+      --blue-soft: #e8f0fe;
+      --green: #188038;
+      --yellow: #fbbc04;
+      --red: #d93025;
+      --shadow: 0 1px 2px rgba(60, 64, 67, 0.08), 0 4px 16px rgba(60, 64, 67, 0.06);
+      --radius: 18px;
     }
 
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
-      font-size: 15px;
+      background:
+        radial-gradient(circle at top left, rgba(66, 133, 244, 0.10), transparent 30rem),
+        linear-gradient(180deg, #ffffff 0%, var(--bg) 38rem);
       line-height: 1.6;
     }
 
-    /* ── Nav ─────────────────────────────────────────── */
-    nav {
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-      height: var(--nav-height);
+      z-index: 10;
+      border-bottom: 1px solid rgba(229, 231, 235, 0.82);
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-inner {
+      height: 68px;
       display: flex;
       align-items: center;
-      padding: 0 32px;
-      gap: 32px;
+      justify-content: space-between;
+      gap: 22px;
     }
 
-    nav .nav-name {
-      font-weight: 600;
-      font-size: 16px;
-      color: var(--text);
-      text-decoration: none;
-      margin-right: auto;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
     }
 
-    nav a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color .15s;
-    }
-
-    nav a:hover { color: var(--accent); }
-
-    nav .nav-resume {
-      background: var(--accent);
-      color: #fff;
-      padding: 7px 16px;
-      border-radius: 20px;
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
       font-size: 13px;
-      font-weight: 600;
-      transition: background .15s;
+      background: conic-gradient(from 150deg, var(--blue), var(--green), var(--yellow), var(--red), var(--blue));
+      box-shadow: 0 1px 8px rgba(26, 115, 232, 0.22);
     }
 
-    nav .nav-resume:hover { background: var(--accent-hover); color: #fff; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 500;
+    }
 
-    /* ── Layout ──────────────────────────────────────── */
-    .page { max-width: 820px; margin: 0 auto; padding: 48px 24px 80px; }
+    .nav-links a {
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
 
-    /* ── Hero ────────────────────────────────────────── */
+    .nav-links a:hover {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .resume-button {
+      background: var(--blue) !important;
+      color: #ffffff !important;
+      box-shadow: 0 1px 5px rgba(26, 115, 232, 0.25);
+    }
+
     .hero {
-      background: var(--surface);
+      padding: 72px 0 34px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.75fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .hero-main,
+    .hero-side,
+    .section-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(229, 231, 235, 0.9);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 40px 40px 36px;
+    }
+
+    .hero-main {
+      padding: 44px;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 700;
       margin-bottom: 24px;
     }
 
-    .hero-top { display: flex; align-items: flex-start; gap: 24px; }
-
-    .avatar {
-      width: 72px;
-      height: 72px;
+    .status-dot {
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
-      background: var(--accent-light);
+      background: var(--green);
+      box-shadow: 0 0 0 4px rgba(24, 128, 56, 0.12);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      color: #111827;
+    }
+
+    .hero-title-accent {
+      color: var(--blue);
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      margin: 22px 0 0;
+      font-size: 18px;
+      color: #3c4043;
+    }
+
+    .hero-actions {
       display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      min-height: 42px;
+      border-radius: 999px;
+      padding: 0 18px;
+      border: 1px solid var(--border);
       font-weight: 700;
-      color: var(--accent);
-      flex-shrink: 0;
-    }
-
-    .hero-text h1 {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -.3px;
+      font-size: 14px;
+      background: #ffffff;
       color: var(--text);
-      margin-bottom: 4px;
+      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
     }
 
-    .hero-text .role {
-      font-size: 15px;
-      color: var(--text-secondary);
-      font-weight: 500;
-      margin-bottom: 16px;
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+      border-color: #cbd5e1;
     }
 
-    .contact-links {
+    .button.primary {
+      background: var(--blue);
+      color: #ffffff;
+      border-color: var(--blue);
+    }
+
+    .hero-side {
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .profile-card-top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      font-weight: 800;
+      color: var(--blue);
+      box-shadow: 0 1px 8px rgba(26, 115, 232, 0.10);
+    }
+
+    .profile-name {
+      font-weight: 800;
+      font-size: 19px;
+      margin-bottom: 1px;
+    }
+
+    .profile-role {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .quick-links {
+      display: grid;
+      gap: 10px;
+    }
+
+    .quick-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-radius: 13px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      padding: 12px 14px;
+      color: #3c4043;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .quick-link span {
+      color: var(--blue);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .metric {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      background: #ffffff;
+      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.05);
+    }
+
+    .metric-value {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--blue);
+    }
+
+    .metric-label {
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .section {
+      padding: 18px 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 0 0 16px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: -0.03em;
+      color: #111827;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .section-card {
+      padding: 28px;
+    }
+
+    .experience-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .experience-item {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 22px;
+      padding: 22px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+    }
+
+    .company {
+      font-weight: 800;
+      font-size: 18px;
+      color: #7c2d12;
+    }
+
+    .role {
+      margin-top: 3px;
+      font-size: 14px;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .date {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .bullets {
+      margin: 0;
+      padding-left: 18px;
+      color: #3c4043;
+    }
+
+    .bullets li {
+      margin: 0 0 8px;
+      padding-left: 4px;
+    }
+
+    .bullets li:last-child {
+      margin-bottom: 0;
+    }
+
+    .bullets strong {
+      color: #111827;
+    }
+
+    .chips {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 20px;
     }
 
-    .contact-links a {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--accent);
-      text-decoration: none;
-      background: var(--accent-light);
-      padding: 5px 12px;
-      border-radius: 20px;
-      transition: background .15s;
-    }
-
-    .contact-links a:hover { background: #d2e3fc; }
-
-    .contact-links svg { width: 14px; height: 14px; }
-
-    /* ── Card ────────────────────────────────────────── */
-    .card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 32px 40px;
-      margin-bottom: 20px;
-    }
-
-    .section-title {
-      font-size: 12px;
+    .chip {
+      border-radius: 999px;
+      border: 1px solid #dbeafe;
+      background: var(--blue-soft);
+      color: var(--blue);
+      padding: 8px 12px;
       font-weight: 700;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-
-    /* ── Summary ─────────────────────────────────────── */
-    .summary-text {
-      color: var(--text);
-      line-height: 1.75;
-    }
-
-    /* ── Experience ──────────────────────────────────── */
-    .exp-item { padding-bottom: 28px; margin-bottom: 28px; border-bottom: 1px solid var(--border); }
-    .exp-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-
-    .exp-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 4px; }
-
-    .exp-company {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .exp-date {
       font-size: 13px;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      font-weight: 500;
-      margin-top: 2px;
     }
 
-    .exp-role {
-      font-size: 14px;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 2px;
+    .chip.alt {
+      border-color: #fde68a;
+      background: #fffbeb;
+      color: #92400e;
     }
 
-    .exp-team {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-bottom: 12px;
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
     }
 
-    .exp-bullets {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .exp-bullets li {
-      padding-left: 18px;
-      position: relative;
-      font-size: 14px;
-      color: var(--text);
-      line-height: 1.65;
-    }
-
-    .exp-bullets li::before {
-      content: '·';
-      position: absolute;
-      left: 4px;
-      color: var(--accent);
-      font-size: 18px;
-      line-height: 1.3;
-    }
-
-    .exp-bullets li strong { font-weight: 600; color: var(--text); }
-
-    /* ── Skills ──────────────────────────────────────── */
-    .skill-group { margin-bottom: 16px; }
-    .skill-group:last-child { margin-bottom: 0; }
-
-    .skill-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      margin-bottom: 8px;
-    }
-
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-
-    .tag {
-      background: var(--tag-bg);
-      color: var(--tag-text);
-      font-size: 13px;
-      font-weight: 500;
-      padding: 4px 12px;
+    .mini-card {
+      padding: 22px;
+      border: 1px solid var(--border);
       border-radius: 16px;
+      background: #ffffff;
     }
 
-    /* ── Education ───────────────────────────────────── */
-    .edu-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-
-    .edu-degree { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-    .edu-uni { font-size: 14px; color: var(--text-secondary); font-weight: 500; margin-bottom: 4px; }
-    .edu-gpa {
-      display: inline-block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent);
-      background: var(--accent-light);
-      padding: 2px 10px;
-      border-radius: 12px;
-      margin-top: 4px;
-    }
-    .edu-date { font-size: 13px; color: var(--text-secondary); font-weight: 500; white-space: nowrap; }
-
-    /* ── Certifications ──────────────────────────────── */
-    .cert-item { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-    .cert-item:first-child { padding-top: 0; }
-    .cert-item:last-child { border-bottom: none; padding-bottom: 0; }
-
-    .cert-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: var(--accent-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+    .mini-title {
+      margin: 0 0 8px;
       font-size: 16px;
+      font-weight: 800;
+      color: #111827;
     }
 
-    .cert-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-    .cert-issuer { font-size: 13px; color: var(--text-secondary); }
+    .mini-text {
+      margin: 0;
+      color: var(--muted);
+    }
 
-    /* ── Footer ──────────────────────────────────────── */
-    footer {
+    .footer {
+      padding: 38px 0 56px;
+      color: var(--muted);
+      font-size: 14px;
       text-align: center;
-      font-size: 13px;
-      color: var(--text-secondary);
-      padding-top: 12px;
     }
 
-    @media (max-width: 600px) {
-      nav { padding: 0 16px; gap: 16px; }
-      nav a:not(.nav-name):not(.nav-resume) { display: none; }
-      .page { padding: 24px 16px 60px; }
-      .hero, .card { padding: 24px 20px; }
-      .hero-top { flex-direction: column; gap: 16px; }
-      .edu-row { flex-direction: column; gap: 4px; }
-      .exp-header { flex-direction: column; gap: 2px; }
+    @media (max-width: 900px) {
+      .hero-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .experience-item {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .nav-inner {
+        height: auto;
+        min-height: 64px;
+        padding: 10px 0;
+      }
+
+      .nav-links a:not(.resume-button) {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 36px;
+      }
+
+      .hero-main,
+      .hero-side,
+      .section-card {
+        padding: 22px;
+        border-radius: 16px;
+      }
+
+      .hero-copy {
+        font-size: 16px;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        align-items: start;
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
+  <div id="root"></div>
 
-<!-- ── Nav ─────────────────────────────────────────── -->
-<nav>
-  <a class="nav-name" href="#">Pratik Dey</a>
-  <a href="#experience">Experience</a>
-  <a href="#skills">Skills</a>
-  <a href="#education">Education</a>
-  <a class="nav-resume" href="./Pratik_Dey_Resume.pdf" target="_blank">Resume ↗</a>
-</nav>
+  <script type="text/babel">
+    const resumeHref = "./Pratik_Dey_Resume.pdf";
 
-<!-- ── Page ────────────────────────────────────────── -->
-<main class="page">
+    const links = [
+      { label: "Email", value: "pratikdey0316@gmail.com", href: "mailto:pratikdey0316@gmail.com" },
+      { label: "GitHub", value: "github.com/pratik0316", href: "https://github.com/pratik0316" },
+      { label: "LinkedIn", value: "linkedin.com/in/pratikdey0316", href: "https://linkedin.com/in/pratikdey0316" },
+      { label: "LeetCode", value: "leetcode.com/u/pratikdey0316", href: "https://leetcode.com/u/pratikdey0316" },
+    ];
 
-  <!-- Hero -->
-  <div class="hero">
-    <div class="hero-top">
-      <div class="avatar">PD</div>
-      <div class="hero-text">
-        <h1>Pratik Dey</h1>
-        <p class="role">Software Engineer · Distributed Systems &amp; Backend Infrastructure</p>
-      </div>
-    </div>
-    <div class="contact-links">
-      <a href="mailto:pratikdey0316@gmail.com">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-        pratikdey0316@gmail.com
-      </a>
-      <a href="https://linkedin.com/in/pratikdey0316" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        linkedin.com/in/pratikdey0316
-      </a>
-      <a href="https://github.com/pratik0316" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-        github.com/pratik0316
-      </a>
-      <a href="https://leetcode.com/u/pratikdey0316" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/></svg>
-        LeetCode
-      </a>
-    </div>
-  </div>
+    const metrics = [
+      { value: "4+ yrs", label: "backend and distributed systems experience" },
+      { value: "1000/min", label: "Azure Direct Drive DNS operation throughput" },
+      { value: "6K/min", label: "DynamoDB CDC writes indexed to OpenSearch" },
+      { value: "0", label: "RBAC 409 conflicts after lock-free redesign" },
+    ];
 
-  <!-- Summary -->
-  <div class="card" id="about">
-    <p class="section-title">About</p>
-    <p class="summary-text">
-      Distributed Systems Engineer with experience in cloud storage, backend infrastructure, and production reliability at Microsoft and Amazon. Particularly interested in the intersection of AI/ML systems, data infrastructure, and distributed compute — including storage engines, query execution, and infrastructure for large-scale ML workloads.
-    </p>
-  </div>
+    const experiences = [
+      {
+        company: "Microsoft",
+        role: "Software Engineer - Azure Storage",
+        date: "Sept 2024 - Present",
+        bullets: [
+          <>Scaled <strong>Azure Direct Drive</strong> provisioning from <strong>300/min to 1000/min</strong> through DNS architecture redesign.</>,
+          <>Eliminated subscription-level contention in <strong>RBAC</strong> notification handling, reducing <strong>HTTP 409</strong> conflicts from <strong>150/hr to zero</strong>.</>,
+          <>Mitigated a critical logging vulnerability exposing <strong>Azure Storage SAS keys</strong> through detection and service hardening.</>,
+          <>Migrated <strong>4+ services</strong> from IFX to <strong>OpenTelemetry</strong>, improving telemetry scalability and reducing metric cardinality.</>,
+          <>Built a <strong>GitHub Copilot skill</strong> to improve safety certification review documentation for externally exposed service APIs.</>,
+        ],
+      },
+      {
+        company: "Amazon",
+        role: "Software Engineer",
+        date: "July 2022 - Aug 2024",
+        bullets: [
+          <>Architected a real-time CDC pipeline (<strong>DynamoDB - Kinesis - Lambda - OpenSearch</strong>) supporting <strong>6K writes/min</strong>.</>,
+          <>Eliminated <strong>60K+/hour</strong> false-positive Alexa voice command triggers through command-processing redesign.</>,
+          <>Externalized <strong>Personal Knowledge Service</strong> to Alexa mobile clients, reworking AuthN/AuthZ and scaling backend capacity.</>,
+        ],
+      },
+      {
+        company: "CRED",
+        role: "SWE Intern - SRE",
+        date: "Oct 2021 - Mar 2022",
+        bullets: [
+          <>Built internal <strong>IAM</strong> access tooling for self-serve AWS role grants, reducing SRE on-call effort by <strong>50%</strong>.</>,
+          <>Automated cross-account IAM user migrations with policy mapping, permission boundaries, and rollback flows.</>,
+        ],
+      },
+      {
+        company: "Google Summer of Code - AboutCode",
+        role: "Open Source Contributor",
+        date: "May 2021 - Aug 2021",
+        bullets: [
+          <>Enhanced the DeltaCode diff engine using the VirtualCodebase library and Azure CI quality checks.</>,
+          <>Improved project onboarding with ReadTheDocs documentation and Docker containerization.</>,
+        ],
+      },
+    ];
 
-  <!-- Experience -->
-  <div class="card" id="experience">
-    <p class="section-title">Experience</p>
+    const skillGroups = [
+      {
+        title: "Languages",
+        skills: ["Python", "Kotlin", "Go", "C#", "Rust"],
+      },
+      {
+        title: "Cloud and Infrastructure",
+        skills: ["Azure", "AWS", "Kubernetes", "Docker", "ECS", "Lambda", "API Gateway"],
+      },
+      {
+        title: "Distributed Systems and Data",
+        skills: ["DynamoDB", "OpenSearch", "Kinesis", "Apache Spark", "Apache Arrow", "CDC Pipelines"],
+      },
+      {
+        title: "Reliability and Observability",
+        skills: ["OpenTelemetry", "Production Debugging", "Incident Response", "CI/CD", "Root Cause Analysis"],
+      },
+    ];
 
-    <div class="exp-item">
-      <div class="exp-header">
-        <div>
-          <div class="exp-company">Microsoft India</div>
-          <div class="exp-role">Software Engineer</div>
-          <div class="exp-team">Azure Storage · Storage Resource Provider Team</div>
-        </div>
-        <div class="exp-date">Sept 2024 – Present</div>
-      </div>
-      <ul class="exp-bullets">
-        <li>Led migration of <strong>4+ services</strong> from <strong>IFX</strong> to <strong>OpenTelemetry</strong>, reducing metric cardinality and improving telemetry scalability.</li>
-        <li>Mitigated critical security vulnerability exposing <strong>Azure Storage SAS keys</strong> in logs through automated detection and service hardening.</li>
-        <li>Scaled <strong>Azure Direct Drive</strong> provisioning throughput from <strong>300/min to 1,000/min</strong> through <strong>DNS</strong> architecture redesign.</li>
-        <li>Eliminated subscription-level contention in <strong>RBAC</strong> notification handling, reducing <strong>HTTP 409</strong> conflicts from <strong>150/hr to zero</strong>.</li>
-        <li>Owned production incident response for Azure Storage control plane, driving high-severity investigations, service recovery, and root cause analysis.</li>
-      </ul>
-    </div>
+    function Nav() {
+      return (
+        <header className="nav">
+          <div className="shell nav-inner">
+            <a className="brand" href="#top" aria-label="Pratik Dey home">
+              <span className="brand-mark">PD</span>
+              <span>Pratik Dey</span>
+            </a>
+            <nav className="nav-links" aria-label="Primary navigation">
+              <a href="#experience">Experience</a>
+              <a href="#skills">Skills</a>
+              <a href="#education">Education</a>
+              <a className="resume-button" href={resumeHref} target="_blank" rel="noreferrer">Resume</a>
+            </nav>
+          </div>
+        </header>
+      );
+    }
 
-    <div class="exp-item">
-      <div class="exp-header">
-        <div>
-          <div class="exp-company">Amazon</div>
-          <div class="exp-role">Software Engineer</div>
-          <div class="exp-team">Alexa Identity Services</div>
-        </div>
-        <div class="exp-date">July 2022 – Aug 2024</div>
-      </div>
-      <ul class="exp-bullets">
-        <li>Architected and scaled real-time <strong>CDC</strong> pipeline (<strong>DynamoDB</strong> → <strong>Kinesis</strong> → <strong>Lambda</strong> → <strong>OpenSearch</strong>) supporting <strong>6K writes/min</strong>, resolving hot-partitioning and consumer bottlenecks.</li>
-        <li>Eliminated <strong>60K+/hour</strong> false-positive voice command triggers through redesign of command-processing logic.</li>
-        <li>Led externalization of <strong>Personal Knowledge Service</strong> to Alexa mobile clients, reworking <strong>AuthN/AuthZ</strong> architecture and scaling backend capacity for launch readiness.</li>
-        <li><em>Tech stack:</em> Kotlin, Golang, Dagger, Guice, AWS Step Functions, ECS, Lambda, API Gateway, DynamoDB, OpenSearch, AWS Glue, CDK, React.</li>
-      </ul>
-    </div>
+    function Hero() {
+      return (
+        <section className="hero shell" id="top">
+          <div className="hero-grid">
+            <div className="hero-main">
+              <div className="eyebrow"><span className="status-dot"></span>Distributed systems engineer</div>
+              <h1>Building reliable cloud infrastructure at scale<span className="hero-title-accent">.</span></h1>
+              <p className="hero-copy">
+                I work on Azure Storage control plane systems, backend infrastructure, and production reliability.
+                My interests sit at the intersection of cloud storage, data infrastructure, distributed compute,
+                and infrastructure for large-scale ML workloads.
+              </p>
+              <div className="hero-actions">
+                <a className="button primary" href={resumeHref} target="_blank" rel="noreferrer">Download resume</a>
+                <a className="button" href="https://github.com/pratik0316" target="_blank" rel="noreferrer">View GitHub</a>
+                <a className="button" href="mailto:pratikdey0316@gmail.com">Contact</a>
+              </div>
+            </div>
 
-    <div class="exp-item">
-      <div class="exp-header">
-        <div>
-          <div class="exp-company">CRED</div>
-          <div class="exp-role">SWE Intern · SRE</div>
-        </div>
-        <div class="exp-date">Oct 2021 – Mar 2022</div>
-      </div>
-      <ul class="exp-bullets">
-        <li>Built internal <strong>IAM</strong> access management portal enabling self-serve role grants across <strong>AWS</strong> accounts, reducing SRE on-call involvement by <strong>50%</strong>.</li>
-        <li>Built backend automation for cross-account <strong>IAM</strong> user migrations, handling policy mapping, permission boundaries, and rollback for seamless access transfers.</li>
-        <li><em>Tech:</em> Golang, Python, Step Functions, ECS, Lambda, API Gateway, DynamoDB, Aurora.</li>
-      </ul>
-    </div>
+            <aside className="hero-side" aria-label="Profile links">
+              <div className="profile-card-top">
+                <div className="avatar">PD</div>
+                <div>
+                  <div className="profile-name">Pratik Dey</div>
+                  <div className="profile-role">Software Engineer, Microsoft</div>
+                </div>
+              </div>
+              <div className="quick-links">
+                {links.map((link) => (
+                  <a className="quick-link" key={link.label} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+                    <div>
+                      <strong>{link.label}</strong>
+                      <div>{link.value}</div>
+                    </div>
+                    <span>open</span>
+                  </a>
+                ))}
+              </div>
+            </aside>
+          </div>
 
-    <div class="exp-item">
-      <div class="exp-header">
-        <div>
-          <div class="exp-company">Google Summer of Code · AboutCode</div>
-          <div class="exp-role">Open Source Contributor</div>
-        </div>
-        <div class="exp-date">May 2021 – Aug 2021</div>
-      </div>
-      <ul class="exp-bullets">
-        <li>Enhanced DeltaCode diff engine using VirtualCodebase library.</li>
-        <li>Built Azure CI pipeline for API consistency and source quality checks.</li>
-        <li>Added documentation via ReadTheDocs; containerized project with Docker.</li>
-      </ul>
-    </div>
-  </div>
+          <div className="metrics">
+            {metrics.map((metric) => (
+              <div className="metric" key={metric.label}>
+                <div className="metric-value">{metric.value}</div>
+                <div className="metric-label">{metric.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    }
 
-  <!-- Skills -->
-  <div class="card" id="skills">
-    <p class="section-title">Technical Skills</p>
+    function Experience() {
+      return (
+        <section className="section shell" id="experience">
+          <div className="section-heading">
+            <h2>Experience</h2>
+            <p>Production systems, customer-facing infrastructure, and high-signal engineering work.</p>
+          </div>
+          <div className="section-card experience-list">
+            {experiences.map((experience) => (
+              <article className="experience-item" key={experience.company}>
+                <div>
+                  <div className="company">{experience.company}</div>
+                  <div className="role">{experience.role}</div>
+                  <div className="date">{experience.date}</div>
+                </div>
+                <ul className="bullets">
+                  {experience.bullets.map((bullet, index) => <li key={index}>{bullet}</li>)}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
+      );
+    }
 
-    <div class="skill-group">
-      <p class="skill-label">Languages</p>
-      <div class="tags">
-        <span class="tag">Python</span>
-        <span class="tag">Kotlin</span>
-        <span class="tag">Go</span>
-        <span class="tag">C#</span>
-        <span class="tag">Rust</span>
-      </div>
-    </div>
+    function Skills() {
+      return (
+        <section className="section shell" id="skills">
+          <div className="section-heading">
+            <h2>Skills</h2>
+            <p>Tools and systems I reach for in backend and infrastructure work.</p>
+          </div>
+          <div className="section-card">
+            <div className="two-col">
+              {skillGroups.map((group, index) => (
+                <div className="mini-card" key={group.title}>
+                  <p className="mini-title">{group.title}</p>
+                  <div className="chips">
+                    {group.skills.map((skill) => (
+                      <span className={`chip ${index % 2 ? "alt" : ""}`} key={skill}>{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
 
-    <div class="skill-group">
-      <p class="skill-label">Cloud &amp; Infrastructure</p>
-      <div class="tags">
-        <span class="tag">Azure</span>
-        <span class="tag">AWS</span>
-        <span class="tag">Kubernetes</span>
-        <span class="tag">Docker</span>
-      </div>
-    </div>
+    function EducationAndCerts() {
+      return (
+        <section className="section shell" id="education">
+          <div className="section-heading">
+            <h2>Education and Certifications</h2>
+            <p>Academic base and recent AI tooling work.</p>
+          </div>
+          <div className="section-card two-col">
+            <div className="mini-card">
+              <p className="mini-title">Jadavpur University</p>
+              <p className="mini-text">B.E., Computer Science and Engineering</p>
+              <p className="mini-text">GPA 8.83 / 10.00</p>
+              <p className="mini-text">Aug 2018 - Apr 2022</p>
+            </div>
+            <div className="mini-card">
+              <p className="mini-title">Introduction to Model Context Protocol</p>
+              <p className="mini-text">Anthropic certification covering MCP-based connections between AI systems, tools, and external data sources.</p>
+            </div>
+          </div>
+        </section>
+      );
+    }
 
-    <div class="skill-group">
-      <p class="skill-label">Distributed Systems &amp; Data</p>
-      <div class="tags">
-        <span class="tag">DynamoDB</span>
-        <span class="tag">OpenSearch</span>
-        <span class="tag">Kinesis</span>
-        <span class="tag">Lambda</span>
-        <span class="tag">ECS</span>
-        <span class="tag">Apache Spark</span>
-        <span class="tag">Apache Arrow</span>
-      </div>
-    </div>
+    function App() {
+      return (
+        <>
+          <Nav />
+          <main>
+            <Hero />
+            <Experience />
+            <Skills />
+            <EducationAndCerts />
+          </main>
+          <footer className="footer shell">
+            Built for GitHub Pages as a static React profile. Resume PDF is available from the navigation.
+          </footer>
+        </>
+      );
+    }
 
-    <div class="skill-group">
-      <p class="skill-label">Observability &amp; Reliability</p>
-      <div class="tags">
-        <span class="tag">OpenTelemetry</span>
-        <span class="tag">CI/CD</span>
-        <span class="tag">Production Debugging</span>
-        <span class="tag">Incident Response</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Education -->
-  <div class="card" id="education">
-    <p class="section-title">Education</p>
-    <div class="edu-row">
-      <div>
-        <div class="edu-degree">B.E., Computer Science &amp; Engineering</div>
-        <div class="edu-uni">Jadavpur University</div>
-        <span class="edu-gpa">GPA 8.83 / 10.00</span>
-      </div>
-      <div class="edu-date">Aug 2018 – Apr 2022</div>
-    </div>
-  </div>
-
-  <!-- Certifications -->
-  <div class="card" id="certifications">
-    <p class="section-title">Certifications</p>
-    <div class="cert-item">
-      <div class="cert-icon">🤖</div>
-      <div>
-        <div class="cert-name">Introduction to Model Context Protocol</div>
-        <div class="cert-issuer">Anthropic · Covers the MCP standard for connecting AI models to external tools, data sources, and services through a unified interface.</div>
-      </div>
-    </div>
-    <div class="cert-item">
-      <div class="cert-icon">💻</div>
-      <div>
-        <div class="cert-name">Claude Code in Action</div>
-        <div class="cert-issuer">Anthropic</div>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    Built with plain HTML · <a href="./Pratik_Dey_Resume.pdf" target="_blank" style="color:var(--accent);text-decoration:none;">Download Resume PDF ↗</a>
-  </footer>
-
-</main>
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
 </body>
 </html>
