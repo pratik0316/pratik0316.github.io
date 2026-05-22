@@ -10,19 +10,18 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     :root {
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --surface-soft: #f1f5f9;
+      --blue: #1a73e8;
+      --red: #ea4335;
+      --yellow: #fbbc04;
+      --green: #34a853;
       --text: #202124;
       --muted: #5f6368;
-      --border: #e5e7eb;
-      --blue: #1a73e8;
-      --blue-soft: #e8f0fe;
-      --green: #188038;
-      --yellow: #fbbc04;
-      --red: #d93025;
-      --shadow: 0 1px 2px rgba(60, 64, 67, 0.08), 0 4px 16px rgba(60, 64, 67, 0.06);
-      --radius: 18px;
+      --line: #e8eaed;
+      --soft-blue: #e8f0fe;
+      --soft-red: #fce8e6;
+      --soft-green: #e6f4ea;
+      --soft-yellow: #fef7e0;
+      --page: #ffffff;
     }
 
     * {
@@ -35,12 +34,11 @@
 
     body {
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--page);
       color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(66, 133, 244, 0.10), transparent 30rem),
-        linear-gradient(180deg, #ffffff 0%, var(--bg) 38rem);
+      font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
     a {
@@ -48,323 +46,310 @@
       text-decoration: none;
     }
 
-    .shell {
-      width: min(1120px, calc(100% - 40px));
+    .wrap {
+      width: min(1040px, calc(100% - 44px));
       margin: 0 auto;
     }
 
-    .nav {
+    .topbar {
       position: sticky;
       top: 0;
       z-index: 10;
-      border-bottom: 1px solid rgba(229, 231, 235, 0.82);
-      background: rgba(255, 255, 255, 0.86);
-      backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
     }
 
-    .nav-inner {
-      height: 68px;
+    .topbar.scrolled {
+      border-color: var(--line);
+    }
+
+    .topbar-inner {
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 22px;
+      gap: 24px;
     }
 
-    .brand {
-      display: flex;
+    .mini-logo {
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: #ffffff;
-      font-size: 13px;
-      background: conic-gradient(from 150deg, var(--blue), var(--green), var(--yellow), var(--red), var(--blue));
-      box-shadow: 0 1px 8px rgba(26, 115, 232, 0.22);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
+      gap: 9px;
+      font-size: 15px;
       color: var(--muted);
       font-weight: 500;
     }
 
-    .nav-links a {
+    .logo-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .logo-dot:nth-child(1) { background: var(--blue); }
+    .logo-dot:nth-child(2) { background: var(--red); }
+    .logo-dot:nth-child(3) { background: var(--yellow); }
+    .logo-dot:nth-child(4) { background: var(--green); }
+
+    .dot-row {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav a {
       padding: 8px 12px;
       border-radius: 999px;
     }
 
-    .nav-links a:hover {
-      background: var(--blue-soft);
-      color: var(--blue);
+    .nav a:hover {
+      background: #f1f3f4;
+      color: var(--text);
     }
 
-    .resume-button {
-      background: var(--blue) !important;
-      color: #ffffff !important;
-      box-shadow: 0 1px 5px rgba(26, 115, 232, 0.25);
+    .nav .primary {
+      background: var(--blue);
+      color: #fff;
+      font-weight: 500;
+      margin-left: 8px;
+    }
+
+    .nav .primary:hover {
+      background: #1765cc;
+      color: #fff;
     }
 
     .hero {
-      padding: 72px 0 34px;
-    }
-
-    .hero-grid {
+      min-height: calc(100vh - 64px);
       display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.75fr);
-      gap: 28px;
-      align-items: stretch;
-    }
-
-    .hero-main,
-    .hero-side,
-    .section-card {
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(229, 231, 235, 0.9);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-main {
-      padding: 44px;
-    }
-
-    .eyebrow {
-      width: fit-content;
-      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      color: var(--blue);
-      background: var(--blue-soft);
-      border-radius: 999px;
-      padding: 7px 12px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 24px;
+      padding: 68px 0 52px;
+      text-align: center;
     }
 
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 0 4px rgba(24, 128, 56, 0.12);
-    }
-
-    h1 {
+    .google-name {
       margin: 0;
-      font-size: clamp(42px, 7vw, 76px);
-      line-height: 0.98;
-      letter-spacing: -0.055em;
-      color: #111827;
+      font-size: clamp(52px, 12vw, 122px);
+      line-height: 0.92;
+      letter-spacing: -0.075em;
+      font-weight: 700;
     }
 
-    .hero-title-accent {
-      color: var(--blue);
-    }
+    .google-name span:nth-child(1) { color: var(--blue); }
+    .google-name span:nth-child(2) { color: var(--red); }
+    .google-name span:nth-child(3) { color: var(--yellow); }
+    .google-name span:nth-child(4) { color: var(--blue); }
+    .google-name span:nth-child(5) { color: var(--green); }
+    .google-name span:nth-child(6) { color: var(--red); }
+    .google-name span:nth-child(7) { color: var(--blue); }
+    .google-name span:nth-child(8) { color: var(--green); }
+    .google-name span:nth-child(9) { color: var(--red); }
 
-    .hero-copy {
+    .subtitle {
       max-width: 760px;
-      margin: 22px 0 0;
-      font-size: 18px;
+      margin: 26px auto 0;
+      font-size: clamp(18px, 2.3vw, 24px);
       color: #3c4043;
+      line-height: 1.45;
+    }
+
+    .search-bar {
+      width: min(720px, 100%);
+      margin: 34px auto 0;
+      min-height: 54px;
+      border: 1px solid #dadce0;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px 22px;
+      color: var(--muted);
+      box-shadow: 0 1px 6px rgba(32, 33, 36, 0.08);
+      background: #fff;
+    }
+
+    .search-icon {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #9aa0a6;
+      border-radius: 50%;
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .search-icon::after {
+      content: "";
+      width: 8px;
+      height: 2px;
+      background: #9aa0a6;
+      position: absolute;
+      right: -6px;
+      bottom: -3px;
+      transform: rotate(45deg);
+      border-radius: 2px;
+    }
+
+    .search-text {
+      color: #3c4043;
+      font-size: 16px;
     }
 
     .hero-actions {
+      margin-top: 26px;
       display: flex;
+      justify-content: center;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 28px;
     }
 
     .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 42px;
-      border-radius: 999px;
+      min-height: 40px;
       padding: 0 18px;
-      border: 1px solid var(--border);
-      font-weight: 700;
+      border-radius: 4px;
+      border: 1px solid #f8f9fa;
+      background: #f8f9fa;
+      color: #3c4043;
       font-size: 14px;
-      background: #ffffff;
-      color: var(--text);
-      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
     }
 
     .button:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--shadow);
-      border-color: #cbd5e1;
+      border-color: #dadce0;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
     }
 
-    .button.primary {
+    .button.blue {
+      color: #fff;
       background: var(--blue);
-      color: #ffffff;
       border-color: var(--blue);
     }
 
-    .hero-side {
-      padding: 26px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .profile-card-top {
-      display: flex;
-      gap: 14px;
-      align-items: center;
-    }
-
-    .avatar {
-      width: 58px;
-      height: 58px;
-      border-radius: 18px;
-      display: grid;
-      place-items: center;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      font-weight: 800;
-      color: var(--blue);
-      box-shadow: 0 1px 8px rgba(26, 115, 232, 0.10);
-    }
-
-    .profile-name {
-      font-weight: 800;
-      font-size: 19px;
-      margin-bottom: 1px;
-    }
-
-    .profile-role {
+    .hero-links {
+      margin-top: 24px;
       color: var(--muted);
       font-size: 14px;
     }
 
-    .quick-links {
-      display: grid;
-      gap: 10px;
+    .hero-links a {
+      color: var(--blue);
+      margin: 0 8px;
     }
 
-    .quick-link {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      border-radius: 13px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      padding: 12px 14px;
-      color: #3c4043;
+    .section {
+      padding: 42px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 36px;
+      align-items: start;
+      margin-bottom: 28px;
+    }
+
+    .section-kicker {
+      margin: 0;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(28px, 5vw, 44px);
+      letter-spacing: -0.045em;
+      line-height: 1.08;
+      color: var(--text);
+    }
+
+    .section-copy {
+      margin: 12px 0 0;
+      color: var(--muted);
+      max-width: 680px;
+      font-size: 16px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stat {
+      background: #fff;
+      padding: 24px 18px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: -0.04em;
+    }
+
+    .stat:nth-child(2) .stat-value { color: var(--red); }
+    .stat:nth-child(3) .stat-value { color: var(--green); }
+    .stat:nth-child(4) .stat-value { color: #b06000; }
+
+    .stat-label {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .experience-row {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 36px;
+      padding: 30px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .experience-row:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .company {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .role {
+      margin: 4px 0 0;
+      color: var(--blue);
       font-weight: 600;
       font-size: 14px;
     }
 
-    .quick-link span {
-      color: var(--blue);
-    }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 24px;
-    }
-
-    .metric {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      background: #ffffff;
-      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.05);
-    }
-
-    .metric-value {
-      font-size: 23px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: var(--blue);
-    }
-
-    .metric-label {
-      margin-top: 4px;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    .section {
-      padding: 18px 0;
-    }
-
-    .section-heading {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 16px;
-      margin: 0 0 16px;
-    }
-
-    .section-heading h2 {
-      margin: 0;
-      font-size: 26px;
-      letter-spacing: -0.03em;
-      color: #111827;
-    }
-
-    .section-heading p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .section-card {
-      padding: 28px;
-    }
-
-    .experience-list {
-      display: grid;
-      gap: 18px;
-    }
-
-    .experience-item {
-      display: grid;
-      grid-template-columns: 220px minmax(0, 1fr);
-      gap: 22px;
-      padding: 22px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-    }
-
-    .company {
-      font-weight: 800;
-      font-size: 18px;
-      color: #7c2d12;
-    }
-
-    .role {
-      margin-top: 3px;
-      font-size: 14px;
-      color: var(--blue);
-      font-weight: 700;
-    }
-
     .date {
-      margin-top: 8px;
-      font-size: 13px;
+      margin: 8px 0 0;
       color: var(--muted);
+      font-size: 14px;
     }
 
     .bullets {
@@ -374,7 +359,7 @@
     }
 
     .bullets li {
-      margin: 0 0 8px;
+      margin-bottom: 9px;
       padding-left: 4px;
     }
 
@@ -383,115 +368,140 @@
     }
 
     .bullets strong {
-      color: #111827;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .skill-grid {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 36px;
+    }
+
+    .skill-row {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 20px;
+      padding: 18px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .skill-row:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .skill-label {
+      font-weight: 700;
+      color: var(--text);
     }
 
     .chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
 
     .chip {
+      padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid #dbeafe;
-      background: var(--blue-soft);
-      color: var(--blue);
-      padding: 8px 12px;
-      font-weight: 700;
       font-size: 13px;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--soft-blue);
     }
 
-    .chip.alt {
-      border-color: #fde68a;
-      background: #fffbeb;
-      color: #92400e;
+    .chip.red {
+      color: var(--red);
+      background: var(--soft-red);
     }
 
-    .two-col {
+    .chip.green {
+      color: var(--green);
+      background: var(--soft-green);
+    }
+
+    .chip.yellow {
+      color: #8a5a00;
+      background: var(--soft-yellow);
+    }
+
+    .education-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 44px;
     }
 
-    .mini-card {
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: #ffffff;
+    .plain-block {
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
     }
 
-    .mini-title {
-      margin: 0 0 8px;
-      font-size: 16px;
-      font-weight: 800;
-      color: #111827;
-    }
-
-    .mini-text {
+    .plain-block h3 {
       margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .plain-block p {
+      margin: 6px 0 0;
       color: var(--muted);
     }
 
-    .footer {
-      padding: 38px 0 56px;
+    footer {
+      padding: 44px 0 54px;
+      border-top: 1px solid var(--line);
       color: var(--muted);
       font-size: 14px;
       text-align: center;
     }
 
-    @media (max-width: 900px) {
-      .hero-grid,
-      .two-col {
-        grid-template-columns: 1fr;
-      }
-
-      .metrics {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .experience-item {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .shell {
-        width: min(100% - 28px, 1120px);
-      }
-
-      .nav-inner {
-        height: auto;
-        min-height: 64px;
-        padding: 10px 0;
-      }
-
-      .nav-links a:not(.resume-button) {
+    @media (max-width: 820px) {
+      .nav a:not(.primary) {
         display: none;
       }
 
+      .section-head,
+      .experience-row,
+      .skill-grid,
+      .skill-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .stats,
+      .education-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(100% - 28px, 1040px);
+      }
+
+      .topbar-inner {
+        height: 58px;
+      }
+
       .hero {
-        padding-top: 36px;
+        min-height: auto;
+        padding: 62px 0 42px;
       }
 
-      .hero-main,
-      .hero-side,
-      .section-card {
-        padding: 22px;
-        border-radius: 16px;
+      .search-bar {
+        align-items: flex-start;
+        border-radius: 24px;
+        text-align: left;
       }
 
-      .hero-copy {
-        font-size: 16px;
-      }
-
-      .metrics {
+      .stats,
+      .education-grid {
         grid-template-columns: 1fr;
       }
 
-      .section-heading {
-        align-items: start;
-        flex-direction: column;
+      .stat {
+        padding: 20px 0;
       }
     }
   </style>
@@ -502,29 +512,29 @@
   <script type="text/babel">
     const resumeHref = "./Pratik_Dey_Resume.pdf";
 
-    const links = [
-      { label: "Email", value: "pratikdey0316@gmail.com", href: "mailto:pratikdey0316@gmail.com" },
-      { label: "GitHub", value: "github.com/pratik0316", href: "https://github.com/pratik0316" },
-      { label: "LinkedIn", value: "linkedin.com/in/pratikdey0316", href: "https://linkedin.com/in/pratikdey0316" },
-      { label: "LeetCode", value: "leetcode.com/u/pratikdey0316", href: "https://leetcode.com/u/pratikdey0316" },
+    const contactLinks = [
+      { label: "GitHub", href: "https://github.com/pratik0316" },
+      { label: "LinkedIn", href: "https://linkedin.com/in/pratikdey0316" },
+      { label: "LeetCode", href: "https://leetcode.com/u/pratikdey0316" },
+      { label: "Email", href: "mailto:pratikdey0316@gmail.com" },
     ];
 
-    const metrics = [
-      { value: "4+ yrs", label: "backend and distributed systems experience" },
+    const stats = [
+      { value: "4+ yrs", label: "experience across Microsoft, Amazon, CRED, and open source" },
       { value: "1000/min", label: "Azure Direct Drive DNS operation throughput" },
-      { value: "6K/min", label: "DynamoDB CDC writes indexed to OpenSearch" },
-      { value: "0", label: "RBAC 409 conflicts after lock-free redesign" },
+      { value: "6K/min", label: "DynamoDB CDC writes indexed into OpenSearch" },
+      { value: "0", label: "RBAC conflicts after removing subscription-level contention" },
     ];
 
     const experiences = [
       {
         company: "Microsoft",
-        role: "Software Engineer - Azure Storage",
+        role: "Software Engineer - Azure Storage (Storage Resource Provider)",
         date: "Sept 2024 - Present",
         bullets: [
-          <>Scaled <strong>Azure Direct Drive</strong> provisioning from <strong>300/min to 1000/min</strong> through DNS architecture redesign.</>,
+          <>Scaled <strong>Azure Direct Drive</strong> provisioning throughput from <strong>300/min to 1000/min</strong> through DNS architecture redesign.</>,
           <>Eliminated subscription-level contention in <strong>RBAC</strong> notification handling, reducing <strong>HTTP 409</strong> conflicts from <strong>150/hr to zero</strong>.</>,
-          <>Mitigated a critical logging vulnerability exposing <strong>Azure Storage SAS keys</strong> through detection and service hardening.</>,
+          <>Mitigated a critical security issue exposing <strong>Azure Storage SAS keys</strong> in logs through detection and service hardening.</>,
           <>Migrated <strong>4+ services</strong> from IFX to <strong>OpenTelemetry</strong>, improving telemetry scalability and reducing metric cardinality.</>,
           <>Built a <strong>GitHub Copilot skill</strong> to improve safety certification review documentation for externally exposed service APIs.</>,
         ],
@@ -534,9 +544,9 @@
         role: "Software Engineer",
         date: "July 2022 - Aug 2024",
         bullets: [
-          <>Architected a real-time CDC pipeline (<strong>DynamoDB - Kinesis - Lambda - OpenSearch</strong>) supporting <strong>6K writes/min</strong>.</>,
+          <>Architected and scaled a real-time CDC pipeline (<strong>DynamoDB - Kinesis - Lambda - OpenSearch</strong>) supporting <strong>6K writes/min</strong>.</>,
           <>Eliminated <strong>60K+/hour</strong> false-positive Alexa voice command triggers through command-processing redesign.</>,
-          <>Externalized <strong>Personal Knowledge Service</strong> to Alexa mobile clients, reworking AuthN/AuthZ and scaling backend capacity.</>,
+          <>Externalized <strong>Personal Knowledge Service</strong> to Alexa mobile clients, reworking AuthN/AuthZ and scaling backend capacity for launch readiness.</>,
         ],
       },
       {
@@ -553,44 +563,73 @@
         role: "Open Source Contributor",
         date: "May 2021 - Aug 2021",
         bullets: [
-          <>Enhanced the DeltaCode diff engine using the VirtualCodebase library and Azure CI quality checks.</>,
+          <>Enhanced DeltaCode diff engine using VirtualCodebase and improved API consistency through Azure CI quality checks.</>,
           <>Improved project onboarding with ReadTheDocs documentation and Docker containerization.</>,
         ],
       },
     ];
 
-    const skillGroups = [
-      {
-        title: "Languages",
-        skills: ["Python", "Kotlin", "Go", "C#", "Rust"],
-      },
-      {
-        title: "Cloud and Infrastructure",
-        skills: ["Azure", "AWS", "Kubernetes", "Docker", "ECS", "Lambda", "API Gateway"],
-      },
-      {
-        title: "Distributed Systems and Data",
-        skills: ["DynamoDB", "OpenSearch", "Kinesis", "Apache Spark", "Apache Arrow", "CDC Pipelines"],
-      },
-      {
-        title: "Reliability and Observability",
-        skills: ["OpenTelemetry", "Production Debugging", "Incident Response", "CI/CD", "Root Cause Analysis"],
-      },
+    const skills = [
+      { label: "Languages", tone: "blue", values: ["Python", "Kotlin", "Go", "C#", "Rust"] },
+      { label: "Cloud", tone: "red", values: ["Azure", "AWS", "Kubernetes", "Docker", "ECS", "Lambda"] },
+      { label: "Data", tone: "green", values: ["DynamoDB", "OpenSearch", "Kinesis", "Apache Spark", "Apache Arrow"] },
+      { label: "Reliability", tone: "yellow", values: ["OpenTelemetry", "CI/CD", "Production Debugging", "Incident Response"] },
     ];
 
-    function Nav() {
+    function App() {
       return (
-        <header className="nav">
-          <div className="shell nav-inner">
-            <a className="brand" href="#top" aria-label="Pratik Dey home">
-              <span className="brand-mark">PD</span>
-              <span>Pratik Dey</span>
+        <>
+          <Header />
+          <main>
+            <Hero />
+            <section className="section">
+              <div className="wrap stats">
+                {stats.map((item) => (
+                  <div className="stat" key={item.label}>
+                    <div className="stat-value">{item.value}</div>
+                    <div className="stat-label">{item.label}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
+            <Experience />
+            <Skills />
+            <Education />
+          </main>
+          <footer className="wrap">
+            pratik0316.github.io - Built as a static GitHub Pages profile.
+          </footer>
+        </>
+      );
+    }
+
+    function Header() {
+      const [scrolled, setScrolled] = React.useState(false);
+
+      React.useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 8);
+        onScroll();
+        window.addEventListener("scroll", onScroll);
+        return () => window.removeEventListener("scroll", onScroll);
+      }, []);
+
+      return (
+        <header className={`topbar ${scrolled ? "scrolled" : ""}`}>
+          <div className="wrap topbar-inner">
+            <a className="mini-logo" href="#top">
+              <span className="dot-row" aria-hidden="true">
+                <span className="logo-dot"></span>
+                <span className="logo-dot"></span>
+                <span className="logo-dot"></span>
+                <span className="logo-dot"></span>
+              </span>
+              Pratik Dey
             </a>
-            <nav className="nav-links" aria-label="Primary navigation">
+            <nav className="nav" aria-label="Primary navigation">
               <a href="#experience">Experience</a>
               <a href="#skills">Skills</a>
               <a href="#education">Education</a>
-              <a className="resume-button" href={resumeHref} target="_blank" rel="noreferrer">Resume</a>
+              <a className="primary" href={resumeHref} target="_blank" rel="noreferrer">Resume</a>
             </nav>
           </div>
         </header>
@@ -599,100 +638,30 @@
 
     function Hero() {
       return (
-        <section className="hero shell" id="top">
-          <div className="hero-grid">
-            <div className="hero-main">
-              <div className="eyebrow"><span className="status-dot"></span>Distributed systems engineer</div>
-              <h1>Building reliable cloud infrastructure at scale<span className="hero-title-accent">.</span></h1>
-              <p className="hero-copy">
-                I work on Azure Storage control plane systems, backend infrastructure, and production reliability.
-                My interests sit at the intersection of cloud storage, data infrastructure, distributed compute,
-                and infrastructure for large-scale ML workloads.
-              </p>
-              <div className="hero-actions">
-                <a className="button primary" href={resumeHref} target="_blank" rel="noreferrer">Download resume</a>
-                <a className="button" href="https://github.com/pratik0316" target="_blank" rel="noreferrer">View GitHub</a>
-                <a className="button" href="mailto:pratikdey0316@gmail.com">Contact</a>
-              </div>
+        <section className="hero wrap" id="top">
+          <div>
+            <h1 className="google-name" aria-label="Pratik Dey">
+              {"PratikDey".split("").map((letter, index) => (
+                <span key={`${letter}-${index}`}>{letter}</span>
+              ))}
+            </h1>
+            <p className="subtitle">
+              Software Engineer building reliable cloud storage control plane systems,
+              backend infrastructure, and production systems at scale.
+            </p>
+            <div className="search-bar" aria-label="Profile summary">
+              <span className="search-icon" aria-hidden="true"></span>
+              <span className="search-text">Distributed systems · Azure Storage · Data infrastructure · Production reliability</span>
             </div>
-
-            <aside className="hero-side" aria-label="Profile links">
-              <div className="profile-card-top">
-                <div className="avatar">PD</div>
-                <div>
-                  <div className="profile-name">Pratik Dey</div>
-                  <div className="profile-role">Software Engineer, Microsoft</div>
-                </div>
-              </div>
-              <div className="quick-links">
-                {links.map((link) => (
-                  <a className="quick-link" key={link.label} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
-                    <div>
-                      <strong>{link.label}</strong>
-                      <div>{link.value}</div>
-                    </div>
-                    <span>open</span>
-                  </a>
-                ))}
-              </div>
-            </aside>
-          </div>
-
-          <div className="metrics">
-            {metrics.map((metric) => (
-              <div className="metric" key={metric.label}>
-                <div className="metric-value">{metric.value}</div>
-                <div className="metric-label">{metric.label}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-      );
-    }
-
-    function Experience() {
-      return (
-        <section className="section shell" id="experience">
-          <div className="section-heading">
-            <h2>Experience</h2>
-            <p>Production systems, customer-facing infrastructure, and high-signal engineering work.</p>
-          </div>
-          <div className="section-card experience-list">
-            {experiences.map((experience) => (
-              <article className="experience-item" key={experience.company}>
-                <div>
-                  <div className="company">{experience.company}</div>
-                  <div className="role">{experience.role}</div>
-                  <div className="date">{experience.date}</div>
-                </div>
-                <ul className="bullets">
-                  {experience.bullets.map((bullet, index) => <li key={index}>{bullet}</li>)}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </section>
-      );
-    }
-
-    function Skills() {
-      return (
-        <section className="section shell" id="skills">
-          <div className="section-heading">
-            <h2>Skills</h2>
-            <p>Tools and systems I reach for in backend and infrastructure work.</p>
-          </div>
-          <div className="section-card">
-            <div className="two-col">
-              {skillGroups.map((group, index) => (
-                <div className="mini-card" key={group.title}>
-                  <p className="mini-title">{group.title}</p>
-                  <div className="chips">
-                    {group.skills.map((skill) => (
-                      <span className={`chip ${index % 2 ? "alt" : ""}`} key={skill}>{skill}</span>
-                    ))}
-                  </div>
-                </div>
+            <div className="hero-actions">
+              <a className="button blue" href={resumeHref} target="_blank" rel="noreferrer">Download resume</a>
+              <a className="button" href="#experience">View experience</a>
+            </div>
+            <div className="hero-links">
+              {contactLinks.map((link) => (
+                <a key={link.label} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+                  {link.label}
+                </a>
               ))}
             </div>
           </div>
@@ -700,43 +669,97 @@
       );
     }
 
-    function EducationAndCerts() {
+    function SectionIntro({ kicker, title, copy }) {
       return (
-        <section className="section shell" id="education">
-          <div className="section-heading">
-            <h2>Education and Certifications</h2>
-            <p>Academic base and recent AI tooling work.</p>
+        <div className="section-head">
+          <p className="section-kicker">{kicker}</p>
+          <div>
+            <h2 className="section-title">{title}</h2>
+            {copy ? <p className="section-copy">{copy}</p> : null}
           </div>
-          <div className="section-card two-col">
-            <div className="mini-card">
-              <p className="mini-title">Jadavpur University</p>
-              <p className="mini-text">B.E., Computer Science and Engineering</p>
-              <p className="mini-text">GPA 8.83 / 10.00</p>
-              <p className="mini-text">Aug 2018 - Apr 2022</p>
-            </div>
-            <div className="mini-card">
-              <p className="mini-title">Introduction to Model Context Protocol</p>
-              <p className="mini-text">Anthropic certification covering MCP-based connections between AI systems, tools, and external data sources.</p>
+        </div>
+      );
+    }
+
+    function Experience() {
+      return (
+        <section className="section" id="experience">
+          <div className="wrap">
+            <SectionIntro
+              kicker="Experience"
+              title="Work across cloud infrastructure, backend systems, and production reliability."
+              copy="Selected work that emphasizes scale, reliability, security, and pragmatic engineering impact."
+            />
+            <div>
+              {experiences.map((item) => (
+                <article className="experience-row" key={item.company}>
+                  <div>
+                    <h3 className="company">{item.company}</h3>
+                    <p className="role">{item.role}</p>
+                    <p className="date">{item.date}</p>
+                  </div>
+                  <ul className="bullets">
+                    {item.bullets.map((bullet, index) => (
+                      <li key={index}>{bullet}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
             </div>
           </div>
         </section>
       );
     }
 
-    function App() {
+    function Skills() {
       return (
-        <>
-          <Nav />
-          <main>
-            <Hero />
-            <Experience />
-            <Skills />
-            <EducationAndCerts />
-          </main>
-          <footer className="footer shell">
-            Built for GitHub Pages as a static React profile. Resume PDF is available from the navigation.
-          </footer>
-        </>
+        <section className="section" id="skills">
+          <div className="wrap">
+            <div className="skill-grid">
+              <div>
+                <p className="section-kicker">Skills</p>
+                <h2 className="section-title">Tools I use to build and operate systems.</h2>
+              </div>
+              <div>
+                {skills.map((group) => (
+                  <div className="skill-row" key={group.label}>
+                    <div className="skill-label">{group.label}</div>
+                    <div className="chips">
+                      {group.values.map((value) => (
+                        <span className={`chip ${group.tone}`} key={value}>{value}</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function Education() {
+      return (
+        <section className="section" id="education">
+          <div className="wrap">
+            <SectionIntro
+              kicker="Education"
+              title="Academic base and recent AI tooling."
+              copy="A compact note on formal education and recent certification work."
+            />
+            <div className="education-grid">
+              <div className="plain-block">
+                <h3>Jadavpur University</h3>
+                <p>B.E., Computer Science and Engineering</p>
+                <p>GPA 8.83 / 10.00 · Aug 2018 - Apr 2022</p>
+              </div>
+              <div className="plain-block">
+                <h3>Introduction to Model Context Protocol</h3>
+                <p>Anthropic certification on connecting AI models to tools, services, and external data sources through MCP.</p>
+              </div>
+            </div>
+          </div>
+        </section>
       );
     }
 
