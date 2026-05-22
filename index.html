@@ -173,9 +173,14 @@
       line-height: 1.45;
     }
 
-    .search-bar {
+    .search-area {
       width: min(680px, 100%);
       margin: 34px 0 0;
+      position: relative;
+    }
+
+    .search-bar {
+      width: 100%;
       min-height: 54px;
       border: 1px solid #dadce0;
       border-radius: 999px;
@@ -187,6 +192,11 @@
       color: var(--muted);
       box-shadow: 0 1px 6px rgba(32, 33, 36, 0.08);
       background: #fff;
+    }
+
+    .search-bar:focus-within {
+      border-color: transparent;
+      box-shadow: 0 1px 6px rgba(32, 33, 36, 0.16);
     }
 
     .search-icon {
@@ -210,9 +220,87 @@
       border-radius: 2px;
     }
 
-    .search-text {
+    .search-input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
       color: #3c4043;
       font-size: 16px;
+      font-family: inherit;
+      line-height: 1.5;
+    }
+
+    .search-input::placeholder {
+      color: #3c4043;
+      opacity: 1;
+    }
+
+    .search-results {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      z-index: 3;
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(32, 33, 36, 0.14);
+      padding: 8px;
+      overflow: hidden;
+    }
+
+    .search-result {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: var(--text);
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .search-result:hover,
+    .search-result:focus {
+      outline: 0;
+      background: #f8f9fa;
+    }
+
+    .result-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      margin-top: 9px;
+    }
+
+    .search-result:nth-child(2) .result-dot { background: var(--red); }
+    .search-result:nth-child(3) .result-dot { background: var(--green); }
+    .search-result:nth-child(4) .result-dot { background: var(--yellow); }
+
+    .result-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .result-meta {
+      margin-top: 2px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .search-empty {
+      padding: 14px 16px;
+      color: var(--muted);
+      font-size: 14px;
     }
 
     .hero-actions {
@@ -569,6 +657,51 @@
       { label: "Reliability", tone: "yellow", values: ["OpenTelemetry", "CI/CD", "Production Debugging", "Incident Response"] },
     ];
 
+    const searchIndex = [
+      {
+        title: "Microsoft - Azure Storage",
+        meta: "Direct Drive, RBAC, OpenTelemetry, SAS keys, GitHub Copilot skill",
+        target: "experience",
+        text: "microsoft azure storage direct drive dns rbac http 409 sas keys opentelemetry ifx github copilot skill service api safety certification production incident response",
+      },
+      {
+        title: "Amazon - Software Engineer",
+        meta: "DynamoDB CDC, Kinesis, Lambda, OpenSearch, Alexa services",
+        target: "experience",
+        text: "amazon dynamodb cdc kinesis lambda opensearch alexa personal knowledge service authn authz false positive voice commands",
+      },
+      {
+        title: "CRED - SRE Intern",
+        meta: "IAM access portal, AWS role grants, cross-account migration",
+        target: "experience",
+        text: "cred sre iam aws access portal role grants cross account migration policy mapping permission boundaries rollback",
+      },
+      {
+        title: "Google Summer of Code - AboutCode",
+        meta: "DeltaCode, VirtualCodebase, Azure CI, ReadTheDocs, Docker",
+        target: "experience",
+        text: "google summer of code gsoc aboutcode deltacode virtualcodebase azure ci readthedocs docker open source contributor",
+      },
+      {
+        title: "Technical Skills",
+        meta: "Python, Kotlin, Go, C#, Rust, Azure, AWS, DynamoDB, OpenTelemetry",
+        target: "skills",
+        text: "skills languages python kotlin go csharp c# rust cloud azure aws kubernetes docker ecs lambda dynamodb opensearch kinesis spark arrow opentelemetry ci cd incident response",
+      },
+      {
+        title: "Education and Certification",
+        meta: "Jadavpur University, Computer Science, Model Context Protocol",
+        target: "education",
+        text: "education jadavpur university computer science engineering gpa model context protocol mcp anthropic certification",
+      },
+      {
+        title: "Resume",
+        meta: "Open the downloadable PDF resume",
+        target: "resume",
+        text: "resume cv pdf download",
+      },
+    ];
+
     function App() {
       return (
         <>
@@ -620,6 +753,31 @@
     }
 
     function Hero() {
+      const [query, setQuery] = React.useState("");
+      const normalizedQuery = query.trim().toLowerCase();
+      const results = normalizedQuery
+        ? searchIndex
+            .filter((item) => `${item.title} ${item.meta} ${item.text}`.toLowerCase().includes(normalizedQuery))
+            .slice(0, 5)
+        : [];
+
+      const goToResult = (item) => {
+        if (item.target === "resume") {
+          window.open(resumeHref, "_blank", "noopener,noreferrer");
+          return;
+        }
+
+        document.getElementById(item.target)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        setQuery("");
+      };
+
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        if (results[0]) {
+          goToResult(results[0]);
+        }
+      };
+
       return (
         <section className="hero wrap" id="top">
           <div className="hero-layout">
@@ -630,10 +788,36 @@
                 I build reliable cloud storage control plane systems, backend infrastructure,
                 and production systems at scale.
               </p>
-              <div className="search-bar" aria-label="Profile summary">
-                <span className="search-icon" aria-hidden="true"></span>
-                <span className="search-text">Distributed systems · Azure Storage · Data infrastructure · Production reliability</span>
-              </div>
+              <form className="search-area" onSubmit={handleSubmit} role="search">
+                <div className="search-bar">
+                  <span className="search-icon" aria-hidden="true"></span>
+                  <input
+                    className="search-input"
+                    type="search"
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    placeholder="Search experience, skills, Azure, DynamoDB, OpenTelemetry..."
+                    aria-label="Search profile content"
+                  />
+                </div>
+                {normalizedQuery ? (
+                  <div className="search-results" aria-label="Search results">
+                    {results.length ? (
+                      results.map((item) => (
+                        <button className="search-result" type="button" key={item.title} onClick={() => goToResult(item)}>
+                          <span className="result-dot" aria-hidden="true"></span>
+                          <span>
+                            <span className="result-title">{item.title}</span>
+                            <span className="result-meta">{item.meta}</span>
+                          </span>
+                        </button>
+                      ))
+                    ) : (
+                      <div className="search-empty">No matches yet. Try Azure, DynamoDB, skills, IAM, or resume.</div>
+                    )}
+                  </div>
+                ) : null}
+              </form>
               <div className="hero-actions">
                 <a className="button blue" href={resumeHref} target="_blank" rel="noreferrer">Download resume</a>
                 <a className="button" href="#experience">View experience</a>
