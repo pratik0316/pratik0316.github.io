@@ -41,6 +41,69 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    main,
+    footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .sparkle-field {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .sparkle {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background: var(--color);
+      opacity: 0.18;
+      box-shadow: 0 0 18px var(--glow);
+      animation:
+        sparkle-drift var(--duration) ease-in-out infinite alternate,
+        sparkle-twinkle calc(var(--duration) * 0.62) ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .sparkle::after {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid var(--glow);
+      opacity: 0.18;
+    }
+
+    @keyframes sparkle-drift {
+      from {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      to {
+        transform: translate3d(var(--dx), var(--dy), 0) scale(1.15);
+      }
+    }
+
+    @keyframes sparkle-twinkle {
+      0%, 100% {
+        opacity: 0.10;
+      }
+      50% {
+        opacity: 0.32;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sparkle {
+        animation: none;
+      }
+    }
+
     a {
       color: inherit;
       text-decoration: none;
@@ -702,9 +765,23 @@
       },
     ];
 
+    const sparkles = [
+      { x: "7%", y: "18%", size: "7px", color: "#1a73e8", glow: "rgba(26,115,232,.35)", dx: "26px", dy: "18px", duration: "18s", delay: "-1s" },
+      { x: "18%", y: "76%", size: "5px", color: "#34a853", glow: "rgba(52,168,83,.34)", dx: "-18px", dy: "24px", duration: "22s", delay: "-8s" },
+      { x: "31%", y: "12%", size: "4px", color: "#fbbc04", glow: "rgba(251,188,4,.34)", dx: "20px", dy: "-16px", duration: "21s", delay: "-5s" },
+      { x: "43%", y: "84%", size: "6px", color: "#ea4335", glow: "rgba(234,67,53,.32)", dx: "-22px", dy: "-14px", duration: "24s", delay: "-10s" },
+      { x: "56%", y: "20%", size: "5px", color: "#1a73e8", glow: "rgba(26,115,232,.32)", dx: "18px", dy: "26px", duration: "19s", delay: "-4s" },
+      { x: "68%", y: "68%", size: "7px", color: "#34a853", glow: "rgba(52,168,83,.30)", dx: "-26px", dy: "12px", duration: "25s", delay: "-12s" },
+      { x: "82%", y: "14%", size: "4px", color: "#ea4335", glow: "rgba(234,67,53,.30)", dx: "-20px", dy: "24px", duration: "23s", delay: "-7s" },
+      { x: "91%", y: "52%", size: "6px", color: "#fbbc04", glow: "rgba(251,188,4,.32)", dx: "16px", dy: "-22px", duration: "20s", delay: "-3s" },
+      { x: "11%", y: "46%", size: "3px", color: "#1a73e8", glow: "rgba(26,115,232,.30)", dx: "14px", dy: "-18px", duration: "26s", delay: "-14s" },
+      { x: "74%", y: "88%", size: "3px", color: "#34a853", glow: "rgba(52,168,83,.28)", dx: "-16px", dy: "-16px", duration: "27s", delay: "-16s" },
+    ];
+
     function App() {
       return (
         <>
+          <SparkleField />
           <Header />
           <main>
             <Hero />
@@ -716,6 +793,30 @@
             pratik0316.github.io - Built as a static GitHub Pages profile.
           </footer>
         </>
+      );
+    }
+
+    function SparkleField() {
+      return (
+        <div className="sparkle-field" aria-hidden="true">
+          {sparkles.map((sparkle, index) => (
+            <span
+              className="sparkle"
+              key={index}
+              style={{
+                "--x": sparkle.x,
+                "--y": sparkle.y,
+                "--size": sparkle.size,
+                "--color": sparkle.color,
+                "--glow": sparkle.glow,
+                "--dx": sparkle.dx,
+                "--dy": sparkle.dy,
+                "--duration": sparkle.duration,
+                "--delay": sparkle.delay,
+              }}
+            />
+          ))}
+        </div>
       );
     }
 
